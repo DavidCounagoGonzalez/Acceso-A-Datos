@@ -14,7 +14,7 @@ public class CopyBytesImaxen2 {
 
     public static void main(String[] args) throws Exception {
         
-        Métodos.copyTexto();
+        MétodosImx2.copyTexto();
     }
     
 }
