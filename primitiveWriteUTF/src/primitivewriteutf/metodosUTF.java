@@ -30,7 +30,7 @@ public class metodosUTF {
         DataInputStream dataCad = new DataInputStream(cad);
         
         String cadCopi=null;
-        File fich = new File("/home/dam2a/AD/texto3.txt");
+        
         
         
         
