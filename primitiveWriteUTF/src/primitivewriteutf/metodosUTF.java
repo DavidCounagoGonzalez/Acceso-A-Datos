@@ -33,16 +33,20 @@ public class metodosUTF {
         File fich = new File("/home/dam2a/AD/texto3.txt");
         
         
+        
         try{
         while (cont<3){
             
-            System.out.println("escribindo a cadea: " + exemplo);
-            System.out.println(fich.length());
+            System.out.println("escribindo a cadea: o tempo esta xelido");
+            
             dataCad2.writeUTF(exemplo);
+            
+            System.out.println("Tamaño actual: " + dataCad2.size() + " bytes\n");
             
             cont ++;
             
-        } 
+        }
+            System.out.println("Tamaño final do ficheiro: " + dataCad2.size() + " bytes\n");
         }
         finally{
             if(dataCad2!=null){
@@ -51,12 +55,15 @@ public class metodosUTF {
         }
         try{
         while(dataCad.available()!=0){
+            System.out.println("quedan: " + dataCad.available() + " bytes por leer.");
+            
             cadCopi = dataCad.readUTF();
             
             System.out.println("lendo a cadea : " + cadCopi);
-            System.out.println(fich.length());
+            
                 
         }
+            System.out.println("No queda nada por leer.");
         }
         finally{
             if(dataCad!=null){
