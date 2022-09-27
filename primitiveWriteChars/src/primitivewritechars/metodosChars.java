@@ -60,10 +60,14 @@ public class metodosChars {
         try{
         while(dataCad.available()!=0){
             
-            for (int x=0; x<=exemplo.length(); x++){
+            ora= null;
+            
+            for (int x=0; x<exemplo.length(); x++){
             cadCopi =dataCad.readChar();
-            lista[x]=cadCopi;
-            ora = ora+lista[x];
+            if (ora == null)
+                ora=Character.toString(cadCopi);
+            else
+            ora = ora + cadCopi;
             }
             
             System.out.println("lendo a cadea : " + ora);
