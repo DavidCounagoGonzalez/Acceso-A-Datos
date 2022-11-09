@@ -42,7 +42,9 @@ public class ProdutosStream {
         String des;
         Double prez;
         
-        for(int n =0; n < 2; n++){
+        System.out.println("Lista de produtos gardados no ficheiro:");
+        
+        while(dataCad.available()!=0){
             po3.setCodigo(dataCad.readUTF());
             po3.setDescrición(dataCad.readUTF());
             po3.setPrezo(dataCad.readDouble());

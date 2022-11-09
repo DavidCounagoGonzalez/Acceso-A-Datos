@@ -40,24 +40,37 @@ public class metodosDelimitado {
         String dato = null;
         NumberFormat moneda = NumberFormat.getCurrencyInstance(Locale.GERMANY);
 
-        for( int x = 0 ; x < 3 ; x++){
-
-            if (x == 0){
                 dato = "Código: \t";
-                System.out.println(dato + lista[x]);
-            }
-            else if (x == 1){
+                System.out.println(dato + lista[0]);
+            
                 dato = "Descrición:\t ";
-                System.out.println(dato + lista[x]);
-            }
-            else if (x == 2){
+                System.out.println(dato + lista[1]);
+            
                 dato = "Prezo:   \t";
-                double monetario = Double.parseDouble(lista[x]);
+                double monetario = Double.parseDouble(lista[2]);
                 moneda.format(monetario);
                 System.out.println(dato + monetario + " €");
-            }
+            
         }
-    }
+
+//        for( int x = 0 ; x < 3 ; x++){
+//
+//            if (x == 0){
+//                dato = "Código: \t";
+//                System.out.println(dato + lista[x]);
+//            }
+//            else if (x == 1){
+//                dato = "Descrición:\t ";
+//                System.out.println(dato + lista[x]);
+//            }
+//            else if (x == 2){
+//                dato = "Prezo:   \t";
+//                double monetario = Double.parseDouble(lista[x]);
+//                moneda.format(monetario);
+//                System.out.println(dato + monetario + " €");
+//            }
+//        }
+    
         
     bufCad2.close();
     } 

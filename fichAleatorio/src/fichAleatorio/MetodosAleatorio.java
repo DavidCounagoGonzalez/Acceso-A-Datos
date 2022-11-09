@@ -22,16 +22,16 @@ public class MetodosAleatorio {
     
      
     for(int n=0; n < 3 ; n++){
-        String codw = String.format("%3s", cod[n]).replace(" ", "0");
-        String descw = String.format("%10s", desc[n]).replace(" ", "0");
-        String prezow = String.format("%2s", prezo[n]).replace(" ", "0");
+        String codw = String.format("%3s", cod[n]);
+        String descw = String.format("%10s", desc[n]);
+        String prezow = String.format("%2s", prezo[n]);
         raf.writeChars(codw);
         raf.writeChars(descw);
         raf.writeChars(prezow);
     }
     
     String cad = null;
-    int pos=3;
+    int pos=2;
     int linea= (pos-1)*30;
     
     raf.seek(linea);
