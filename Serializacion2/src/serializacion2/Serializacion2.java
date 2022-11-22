@@ -20,13 +20,13 @@ public class Serializacion2 {
         Product prod2 = new Product(cod[1],desc[1],prezo[1]);
         Product prod3 = new Product(cod[2],desc[2],prezo[2]);
         
-       ObjectOutputStream outp = new ObjectOutputStream (new FileOutputStream("/home/dam2a/AD/serial2.txt"));
+       ObjectOutputStream outp = new ObjectOutputStream (new FileOutputStream("/home/oracle/DAM/serial2.txt"));
        outp.writeObject(prod1);
        outp.writeObject(prod2);
        outp.writeObject(prod3);
        outp.close();
        
-       FileInputStream fich = new FileInputStream("/home/dam2a/AD/serial2.txt");
+       FileInputStream fich = new FileInputStream("/home/oracle/DAM/serial2.txt");
        ObjectInputStream inp = new ObjectInputStream (fich);
        
        Product prodh = null;

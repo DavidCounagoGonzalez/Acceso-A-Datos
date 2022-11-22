@@ -3,22 +3,32 @@ package xmlreader;
 
 
 import java.io.File;
+import java.util.List;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
+import serializacion2.Products;
 import serializacion2.Product;
 
 public class XmlReader {
     
-    public static void main(String[] args) throws JAXBException {
+    public static void main(String[] args){
         
-        JAXBContext jc = JAXBContext.newInstance(Product.class);
-
-        Unmarshaller unmarshaller = jc.createUnmarshaller();
-        Product productos = (Product) unmarshaller.unmarshal(new File("/home/oracle/DAM/products.xml"));
-
-        System.out.println(productos.getCodigo()+ " "+ productos.getDescrición()+" "+ productos.getPrezo());
+        try{
+            File fichero = new File("/home/oracle/DAM/products.xml");
+            JAXBContext jaxbContext = JAXBContext.newInstance(Products.class);
+            
+            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+            Products productos = (Products)jaxbUnmarshaller.unmarshal(fichero);
+            
+            List<Product> lista = productos.getProduct();
+            for (Product prod:lista){
+                System.out.println(prod.getCodigo()+ " " + prod.getDescrición() + " " + prod.getPrezo());
+            }
+            
+        }catch(JAXBException e){
+            System.out.println(e);
+        }
         
     }
     

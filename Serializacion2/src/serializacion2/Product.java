@@ -4,7 +4,7 @@ package serializacion2;
 import java.io.Serializable;
 import javax.xml.bind.annotation.*;
 
-@XmlRootElement
+
 public class Product implements Serializable{
     
     private String codigo;

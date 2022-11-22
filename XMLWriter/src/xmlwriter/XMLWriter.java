@@ -9,11 +9,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.xml.stream.XMLStreamException;
 import serializacion2.Product;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import serializacion2.Products;
  
 
 
@@ -27,20 +29,23 @@ public class XMLWriter {
        File borra = new File("/home/oracle/DAM/products.xml");
           borra.delete();
        
+       
        Product prodh;
+       ArrayList<Product> list=new ArrayList<Product>(); 
        while(fich.available()!=0){
             prodh= (Product) inp.readObject();
             System.out.println(prodh.getCodigo()+ " " + prodh.getDescrición()+ " " + prodh.getPrezo());
-            
-            XMLWriter.jaxbObjectToXML(prodh);
+            list.add(prodh);
        }
+       Products productos = new Products(list);
+       XMLWriter.jaxbObjectToXML(productos);
        
        inp.close();
         
     }
-    private static void jaxbObjectToXML(Product producto) throws FileNotFoundException, IOException {
+    private static void jaxbObjectToXML(Products producto) throws FileNotFoundException, IOException {
       try{
-          JAXBContext jaxbContext = JAXBContext.newInstance(Product.class);
+          JAXBContext jaxbContext = JAXBContext.newInstance(Products.class);
            
           Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
           
