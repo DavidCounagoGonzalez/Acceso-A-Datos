@@ -22,7 +22,7 @@ public Platos()
 	{
 		this.codigop = code;
 	}
-
+        @XmlAttribute
 	public String getCodigop(){
 		return codigop;
 	}

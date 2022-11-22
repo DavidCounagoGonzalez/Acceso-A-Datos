@@ -11,11 +11,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import javax.swing.text.Document;
 import javax.xml.bind.*;
-import javax.xml.transform.*;
-import javax.xml.transform.stream.*;
-import javax.xml.transform.dom.*;
 import javax.xml.parsers.*;
 import org.xml.sax.SAXException;
 
@@ -41,6 +37,7 @@ public class Exa15brevep extends Platos{
         ArrayList<String> tipo= new ArrayList();
         ArrayList<String> pesos = new ArrayList();
         ArrayList<String> grasas = new ArrayList();
+        ArrayList<Platos> platos = new ArrayList();
         
         String compoP1 = ("SELECT * FROM composicion WHERE codp= ? ");
         String verGraxa = ("SELECT * FROM componentes WHERE codc= ?" );
@@ -99,31 +96,30 @@ public class Exa15brevep extends Platos{
         }
         System.out.println("\n"+plato + "\n" + platoObj.getNomep() + "\nGraxaTotal: " +grasatotal);
         
-//        try{
-//            JAXBContext jaxbContext = JAXBContext.newInstance(Platos.class);
-//            Marshaller marshal = jaxbContext.createMarshaller();
-//            File fxml = new File("/home/oracle/DAM/platos.xml");
-//            
-//            marshal.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-//
-//            marshal.marshal(platoObj, fxml);
-//            marshal.marshal(platoObj, System.out);
-//           
-//        }catch(Exception e){
-//            System.out.println(e);
-//        }
-
-         DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-        Document document = (Document) documentBuilder.parse("/home/oracle/DAM/platos.xml");
-        document.getRootElements();
-        
+        platos.add(platoObj);
         
         tipo.clear();
         pesos.clear();
         grasas.clear();
     
         }
+        
+        Menu menu = new Menu(platos);
+        
+        try{
+            JAXBContext jaxbContext = JAXBContext.newInstance(Menu.class);
+            Marshaller marshal = jaxbContext.createMarshaller();
+            File fxml = new File("/home/oracle/DAM/platos.xml");
+            
+            marshal.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+
+            marshal.marshal(menu, fxml);
+            marshal.marshal(menu, System.out);
+           
+        }catch(Exception e){
+            System.out.println(e);
+        }
+        
         inp.close();
         conn.close();
     }
