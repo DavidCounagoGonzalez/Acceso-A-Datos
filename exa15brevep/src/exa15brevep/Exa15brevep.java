@@ -4,6 +4,7 @@ package exa15brevep;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.sql.Connection;
@@ -11,8 +12,10 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import javax.xml.bind.*;
 import javax.xml.parsers.*;
+import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
 import org.xml.sax.SAXException;
 
 public class Exa15brevep extends Platos{
@@ -29,15 +32,18 @@ public class Exa15brevep extends Platos{
         return conn;
     }
 
-    public static void main(String[] args) throws SQLException, FileNotFoundException, IOException, ClassNotFoundException, ParserConfigurationException, SAXException {
+    public static void main(String[] args) throws SQLException, FileNotFoundException, IOException, ClassNotFoundException, ParserConfigurationException, SAXException, XMLStreamException {
         Connection conn = Exa15brevep.Conexion();
         String plato = null;
         String auxCodp;
         String auxCodc;
+        int grasatotal = 0;
         ArrayList<String> tipo= new ArrayList();
         ArrayList<String> pesos = new ArrayList();
         ArrayList<String> grasas = new ArrayList();
-        ArrayList<Platos> platos = new ArrayList();
+        ArrayList<String> platos = new ArrayList();
+        ArrayList<Integer> grasasTotales = new ArrayList();
+        ArrayList<String> codigos = new ArrayList();
         
         String compoP1 = ("SELECT * FROM composicion WHERE codp= ? ");
         String verGraxa = ("SELECT * FROM componentes WHERE codc= ?" );
@@ -45,7 +51,7 @@ public class Exa15brevep extends Platos{
         FileInputStream fich = new FileInputStream("/home/oracle/Descargas/platoss");
         ObjectInputStream inp = new ObjectInputStream (fich);
         
-        Platos platoObj;
+        Platos platoObj = null;
         while(fich.available()!=0){
             platoObj = (Platos) inp.readObject();
             if(platoObj==null){
@@ -84,7 +90,7 @@ public class Exa15brevep extends Platos{
             System.out.println(e);
         }
            
-        int grasatotal = 0;
+        
         for(int i = 0; i<grasas.size(); i++){
             int auxPeso = Integer.parseInt(pesos.get(i));
             int auxGrasa = Integer.parseInt(grasas.get(i));
@@ -95,32 +101,48 @@ public class Exa15brevep extends Platos{
             
         }
         System.out.println("\n"+plato + "\n" + platoObj.getNomep() + "\nGraxaTotal: " +grasatotal);
+
+        platos.add(platoObj.getNomep());
+        grasasTotales.add(grasatotal);
+        codigos.add(plato);
         
-        platos.add(platoObj);
+        XMLWriter(codigos, platos, grasasTotales);
         
+        grasatotal=0;
         tipo.clear();
         pesos.clear();
         grasas.clear();
     
         }
         
-        Menu menu = new Menu(platos);
-        
-        try{
-            JAXBContext jaxbContext = JAXBContext.newInstance(Menu.class);
-            Marshaller marshal = jaxbContext.createMarshaller();
-            File fxml = new File("/home/oracle/DAM/platos.xml");
-            
-            marshal.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-
-            marshal.marshal(menu, fxml);
-            marshal.marshal(menu, System.out);
-           
-        }catch(Exception e){
-            System.out.println(e);
-        }
-        
         inp.close();
         conn.close();
+    }
+    public static void XMLWriter(ArrayList<String> codigos, ArrayList<String> nombres, ArrayList<Integer> grasasT ) throws IOException, XMLStreamException{
+        
+        File borra = new File("/home/oracle/DAM/platos.xml");
+        borra.delete();
+        
+        XMLOutputFactory factor = XMLOutputFactory.newInstance();
+        XMLStreamWriter streamWriter = factor.createXMLStreamWriter(new FileWriter("/home/oracle/DAM/platos.xml"));
+        
+       streamWriter.writeStartDocument("UTF-8", "1.0");
+       streamWriter.writeStartElement("Productos");
+
+       for(int i=0; i<codigos.size(); i++){
+            streamWriter.writeStartElement("Producto");
+            streamWriter.writeAttribute("codigo", codigos.get(i));
+                streamWriter.writeStartElement("NombreP");
+                    streamWriter.writeCharacters(nombres.get(i));
+                streamWriter.writeEndElement();
+                streamWriter.writeStartElement("GrasasTotales");
+                    streamWriter.writeCharacters(String.valueOf(grasasT.get(i)));
+                streamWriter.writeEndElement();
+            streamWriter.writeEndElement();
+       }
+
+       streamWriter.writeEndElement();
+       streamWriter.writeEndDocument();
+       streamWriter.close();
     }
 }

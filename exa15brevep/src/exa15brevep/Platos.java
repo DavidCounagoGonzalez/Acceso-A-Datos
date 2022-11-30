@@ -1,9 +1,7 @@
 package exa15brevep;
 
 import java.io.Serializable;
-import javax.xml.bind.annotation.*;
 
-@XmlRootElement
 public class Platos implements Serializable{
    private String codigop;
    private String nomep;
@@ -22,7 +20,6 @@ public Platos()
 	{
 		this.codigop = code;
 	}
-        @XmlAttribute
 	public String getCodigop(){
 		return codigop;
 	}
